@@ -1,0 +1,41 @@
+{
+  "name": "docker-v2-electron",
+  "version": "0.1.0",
+  "main": "src/main/index.js",
+  "license": "MIT",
+  "repository": "shingtorutledge/docker-v2-electron",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "electronWebpack": {
+    "title": "Docker v2 Registry Image Browser"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "electron": "^1.4.3",
+    "eslint": "^4.11.0",
+    "material-ui": "^0.19.4",
+    "prop-types": "^15.6.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-preset-airbnb": "^2.4.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "electron-builder": "^19.42.1",
+    "electron-webpack": "1.10.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
+    "webpack": "^3.8.1"
+  }
+}
