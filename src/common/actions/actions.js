@@ -15,9 +15,10 @@ export const setPassword = password => ({
   password,
 });
 
-export const listImages = images => ({
+export const listImages = (images, timestamp) => ({
   type: 'LIST_IMAGES',
   images,
+  timestamp,
 });
 
 export const fetchImages = connection => dispatch =>
@@ -43,7 +44,7 @@ export const fetchImages = connection => dispatch =>
 
       Promise.all(promiseList)
         .then((values) => {
-          dispatch(listImages(values));
+          dispatch(listImages(values, (new Date()).toLocaleString()));
         })
         .catch(errc => console.error(errc));
     })

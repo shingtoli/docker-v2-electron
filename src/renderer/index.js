@@ -12,6 +12,7 @@ const store = createStore(Reducers, {
   url: '',
   username: '',
   password: '',
+  timestamp: (new Date()).toLocaleString(),
 }, applyMiddleware(thunkMiddleware));
 
 window.onload = () => {

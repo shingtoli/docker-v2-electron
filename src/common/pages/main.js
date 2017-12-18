@@ -9,6 +9,7 @@ import DockerImageTable from '../components/DockerImageTable';
 
 const mapStateToProps = state => ({
   images: state.images,
+  timestamp: state.timestamp,
   connection: {
     url: state.url,
     username: state.username,
@@ -24,7 +25,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Main = ({
-  images, connection, urlHandler, usernameHandler, passwordHandler, connectionHandler,
+  images,
+  timestamp,
+  connection,
+  urlHandler,
+  usernameHandler,
+  passwordHandler,
+  connectionHandler,
 }) => (
   <div>
     <ConnectionBar
@@ -33,12 +40,13 @@ const Main = ({
       passwordHandler={passwordHandler}
       connectionHandler={() => connectionHandler(connection)}
     />
-    <DockerImageTable list={images} />
+    <DockerImageTable list={images} timestamp={timestamp} />
   </div>
 );
 
 Main.propTypes = {
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  timestamp: PropTypes.string.isRequired,
   connection: PropTypes.shape({
     url: PropTypes.string,
     username: PropTypes.string,

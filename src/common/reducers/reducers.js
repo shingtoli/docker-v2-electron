@@ -1,5 +1,5 @@
 const Reducer = (state = {
-  url: '', username: '', password: '', images: [],
+  url: '', username: '', password: '', images: [], timestamp: '',
 }, action) => {
   switch (action.type) {
     case 'SET_URL':
@@ -9,7 +9,7 @@ const Reducer = (state = {
     case 'SET_PASSWORD':
       return { ...state, password: action.password };
     case 'LIST_IMAGES':
-      return { ...state, images: [...action.images] };
+      return { ...state, images: [...action.images], timestamp: action.timestamp };
     default:
       return state;
   }
