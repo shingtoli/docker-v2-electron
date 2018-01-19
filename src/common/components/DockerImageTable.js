@@ -1,11 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DockerImageItem from './DockerImageItem';
 
-const DockerImageTable = ({ list, timestamp, showHidden }) => (
+const mapStateToProps = state => ({
+  images: state.images,
+  timestamp: state.timestamp,
+  showHidden: state.showHidden,
+});
+
+const DockerImageTable = ({ images, timestamp, showHidden }) => (
   <div>
     <span>Last fetched: {timestamp}</span>
-    {list.map((image, index) => {
+    {images.map((image, index) => {
       if (!showHidden && image.isHidden) {
         return null;
       }
@@ -17,9 +24,9 @@ const DockerImageTable = ({ list, timestamp, showHidden }) => (
 );
 
 DockerImageTable.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
   timestamp: PropTypes.string.isRequired,
   showHidden: PropTypes.bool.isRequired,
 };
 
-export default DockerImageTable;
+export default connect(mapStateToProps)(DockerImageTable);

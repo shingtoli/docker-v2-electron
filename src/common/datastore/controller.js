@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const filepath = './data/store.json';
 
-export const readAndMergeDataFile = apiData => new Promise((resolve, reject) => {
+export const readAndMergeDataFile = (apiData, property) => new Promise((resolve, reject) => {
   fs.access(filepath, fs.constants.R_OK, (err) => {
     if (err) {
       resolve(apiData);
@@ -13,7 +13,7 @@ export const readAndMergeDataFile = apiData => new Promise((resolve, reject) => 
         reject(err.message);
       }
       const datastore = JSON.parse(data);
-      const merged = Object.assign(datastore, apiData);
+      const merged = Object.assign(apiData, property ? datastore[property] : datastore);
       resolve(merged);
     });
   });

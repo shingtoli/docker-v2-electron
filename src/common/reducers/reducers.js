@@ -1,7 +1,13 @@
 import { States } from '../constants/states';
+import { writeDataFile } from '../datastore/controller';
+
+const writePassthrough = (nstate) => {
+  writeDataFile(nstate);
+  return nstate;
+};
 
 const Reducer = (state = {
-  url: '', username: '', password: '', images: [], timestamp: '',
+  url: '', username: '', password: '', images: [], timestamp: '', showHidden: false,
 }, action) => {
   switch (action.type) {
     case 'SET_URL':
@@ -10,8 +16,12 @@ const Reducer = (state = {
       return { ...state, username: action.username };
     case 'SET_PASSWORD':
       return { ...state, password: action.password };
+    case 'SET_IMAGE_DISPLAY':
+      return { ...state, showHidden: action.toState };
     case 'LIST_IMAGES':
-      return { ...state, images: [...action.images], timestamp: action.timestamp };
+      return writePassthrough({
+        ...state, images: [...action.images], timestamp: action.timestamp,
+      });
     case 'SET_IMAGE_STATUS': {
       const images = [...state.images];
       try {
@@ -19,16 +29,18 @@ const Reducer = (state = {
       } catch (e) {
         console.log(`Image not found at ${action.index}`);
       }
-      return { ...state, images };
+      return writePassthrough({ ...state, images, update: new Date() });
     }
     case 'SET_TAG_STATUS': {
       const images = [...state.images];
       try {
-        images[action.imageIndex].tags[action.tagIndex] = action.toState % States.length;
+        const tags = [...state.images[action.imageIndex].tags];
+        tags[action.tagIndex].state = action.toState % Object.keys(States).length;
+        images[action.imageIndex].tags = tags;
       } catch (e) {
         console.log(`Image not found at ${action.index}`);
       }
-      return { ...state, images };
+      return writePassthrough({ ...state, images, update: new Date() });
     }
     default:
       return state;

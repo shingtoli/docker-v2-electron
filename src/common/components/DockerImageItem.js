@@ -31,11 +31,7 @@ const DockerImageItem = ({ image, index, setImageStatusHandler }) => (
 DockerImageItem.propTypes = {
   image: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      state: PropTypes.number.isRequired,
-      val: PropTypes.number.isRequired,
-    })),
+    tags: PropTypes.arrayOf(PropTypes.object),
     isHidden: PropTypes.boolean,
   }).isRequired,
   index: PropTypes.number.isRequired,
