@@ -40,7 +40,7 @@ const Main = ({
       passwordHandler={passwordHandler}
       connectionHandler={() => connectionHandler(connection)}
     />
-    <DockerImageTable list={images} timestamp={timestamp} />
+    <DockerImageTable list={images} timestamp={timestamp} showHidden={false} />
   </div>
 );
 

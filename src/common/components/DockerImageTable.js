@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import DockerTagsList from './DockerTagsList';
+import DockerImageItem from './DockerImageItem';
 
-const DockerImageTable = ({ list, timestamp }) => (
+const DockerImageTable = ({ list, timestamp, showHidden }) => (
   <div>
     <span>Last fetched: {timestamp}</span>
-    {list.map(image => (
-      <Paper key={image.name}>
-        {image.name}
-        <DockerTagsList
-          tags={image.tags.slice().sort((a, b) => a.localeCompare(b, { numeric: true }))}
-        />
-      </Paper>
-    ))}
+    {list.map((image, index) => {
+      if (!showHidden && image.isHidden) {
+        return null;
+      }
+      return (
+        <DockerImageItem image={image} index={index} key={image.name} />
+      );
+    })}
   </div>
 );
 
 DockerImageTable.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object).isRequired,
   timestamp: PropTypes.string.isRequired,
+  showHidden: PropTypes.bool.isRequired,
 };
 
 export default DockerImageTable;

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { readAndMergeDataFile } from '../datastore/controller';
+import { States } from '../constants/states';
 
 export const setUrl = url => ({
   type: 'SET_URL',
@@ -21,6 +23,19 @@ export const listImages = (images, timestamp) => ({
   timestamp,
 });
 
+export const setImageStatus = (index, toState) => ({
+  type: 'SET_IMAGE_STATUS',
+  index,
+  toState,
+});
+
+export const setTagStatus = (imageIndex, tagName, toState) => ({
+  type: 'SET_TAG_STATUS',
+  imageIndex,
+  tagName,
+  toState,
+});
+
 export const fetchImages = connection => dispatch =>
   axios({
     method: 'get',
@@ -35,7 +50,14 @@ export const fetchImages = connection => dispatch =>
           url: `https://${connection.url}/v2/${repo}/tags/list`,
           auth: connection,
         });
-        const { tags } = resa.data;
+        const tags = resa.data.tags.map((tag) => {
+          const tagValue = parseInt(tag, 10);
+          return {
+            name: tag,
+            state: States.NORMAL,
+            val: Number.isNaN(tagValue) ? -1 : tagValue,
+          };
+        });
         return {
           name: repo,
           tags,
@@ -44,7 +66,8 @@ export const fetchImages = connection => dispatch =>
 
       Promise.all(promiseList)
         .then((values) => {
-          dispatch(listImages(values, (new Date()).toLocaleString()));
+          readAndMergeDataFile(values)
+            .then(mergeDB => dispatch(listImages(mergeDB, (new Date()).toLocaleString())));
         })
         .catch(errc => console.error(errc));
     })

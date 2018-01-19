@@ -1,6 +1,6 @@
 {
   "name": "docker-v2-electron",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/main/index.js",
   "license": "MIT",
   "repository": "shingtorutledge/docker-v2-electron",
