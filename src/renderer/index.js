@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from '../common/pages/main';
 import Reducers from '../common/reducers/reducers';
-import { readAndMergeDataFile } from '../common/datastore/controller';
+import { readDataFile } from '../common/datastore/controller';
 
 const loadData = {
   images: [],
@@ -17,8 +17,12 @@ const loadData = {
   showHidden: false,
 };
 window.onload = () => {
-  readAndMergeDataFile(loadData).then((data) => {
-    const store = createStore(Reducers, data, applyMiddleware(thunkMiddleware));
+  readDataFile().then((data) => {
+    const store = createStore(
+      Reducers,
+      Object.assign(loadData, data),
+      applyMiddleware(thunkMiddleware),
+    );
     ReactDOM.render(
       <MuiThemeProvider>
         <Provider store={store}>

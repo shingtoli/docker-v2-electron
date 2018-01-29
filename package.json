@@ -22,6 +22,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "electron": "^1.7.9",
+    "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "prop-types": "^15.6.0",
     "react": "^15.3.2",
